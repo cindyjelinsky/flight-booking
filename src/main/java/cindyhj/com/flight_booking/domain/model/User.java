@@ -1,12 +1,18 @@
 package cindyhj.com.flight_booking.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-
+@NoArgsConstructor
+@JsonIgnoreProperties
 @Getter
 @Setter
+@EqualsAndHashCode
 @Entity(name = "tb_user")
 public class User {
 
