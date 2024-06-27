@@ -2,6 +2,7 @@ package cindyhj.com.flight_booking.exceptions;
 
 import cindyhj.com.flight_booking.service.exceptions.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,14 +22,27 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<ErrorResponse> handleConstraintViolationException(
+    public ResponseEntity<ErrorResponse> handleDataIntegrityException(
             DataIntegrityViolationException e,
             HttpServletRequest request) {
-      String error = "Failed to validate element";
+      String error = "Data Integrity Violation";
       HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY;
       ErrorResponse  err = new ErrorResponse(status.value(),error);
       return ResponseEntity.status(status).body(err);
     }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<ErrorResponse> handleConstraintViolationException(
+            ConstraintViolationException e,
+            HttpServletRequest request) {
+        String error = "Constraint Violation:";
+        HttpStatus status = HttpStatus.CONFLICT;
+        ErrorResponse  err = new ErrorResponse(status.value(),error);
+        return ResponseEntity.status(status).body(err);
+    }
+
+
+
 
 
 
