@@ -1,1 +1,4 @@
-Flight Booking API v1
+Flight Booking API v1 
+
+
+created for studying purposes
