@@ -29,15 +29,17 @@ public class Passenger {
     @Column(unique = true,nullable = false)
     @Size(max = 11)
     @NotEmpty
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String cpf;
-
-    @Column(nullable = false)
-    @Size(min = 4, max = 12)
-    @NotEmpty
-    private char[] password;
 
     @OneToMany(mappedBy = "passenger")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<FlightTicket> flightTicket = new ArrayList<>();
 
+
+    public Passenger(Long id, String name, String cpf) {
+        this.id = id;
+        this.name = name;
+        this.cpf = cpf;
+    }
 }

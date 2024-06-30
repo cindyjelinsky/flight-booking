@@ -1,5 +1,7 @@
 package cindyhj.com.flight_booking.controller;
 
+import cindyhj.com.flight_booking.domain.dto.PassengerDTO;
+import cindyhj.com.flight_booking.domain.dto.PassengerResponse;
 import cindyhj.com.flight_booking.domain.model.Passenger;
 import cindyhj.com.flight_booking.service.PassengerService;
 import org.springframework.http.ResponseEntity;
@@ -21,18 +23,19 @@ public class PassengerController {
 
 
     @GetMapping("/passenger/{id}")
-    public ResponseEntity<Passenger> findById(@PathVariable Long id){
-       var passenger = passengerService.findById(id);
-       return ResponseEntity.ok(passenger);
+    public ResponseEntity<PassengerResponse> findById(@PathVariable Long id){
+      Passenger passenger = passengerService.findById(id);
+      return ResponseEntity.ok(passengerService.toDTO(passenger));
 
     }
 
     @PostMapping
-    public ResponseEntity<Passenger> create(@RequestBody Passenger passengerToCreate){
-        passengerService.create(passengerToCreate);
+    public ResponseEntity<Void> create(@RequestBody PassengerDTO passengerDTO){
+        Passenger passenger  = passengerService.fromDTO(passengerDTO);
+        passengerService.create(passenger);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}").buildAndExpand(passengerToCreate.getId()).toUri();
-        return ResponseEntity.created(location).body(passengerToCreate);
+                .path("/{id}").buildAndExpand(passengerDTO.getId()).toUri();
+        return ResponseEntity.created(location).build();
     }
 
     @PatchMapping("/{id}")

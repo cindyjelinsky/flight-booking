@@ -35,7 +35,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<ErrorResponse> handleConstraintViolationException(
             ConstraintViolationException e,
             HttpServletRequest request) {
-        String error = "Constraint Violation:";
+        String error = "Constraint Violation:" ;
+        e.printStackTrace();
         HttpStatus status = HttpStatus.CONFLICT;
         ErrorResponse  err = new ErrorResponse(status.value(),error);
         return ResponseEntity.status(status).body(err);
